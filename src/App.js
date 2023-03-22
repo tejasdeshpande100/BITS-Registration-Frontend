@@ -8,11 +8,13 @@ import Orientation_5 from './images/Orientation_5.JPG'
 import React, { useState } from 'react';
 import './App.css';
 import Axios from 'axios'
+import Profile from './components/Profile'
 
 const registerUrl = "http://localhost:8000/api/register"
 
-function App() {
 
+function App() {
+  const [capture,setCapture] = useState(false)
   const [values, setValues] = useState({
     id: '',
     student_name: '',
@@ -47,13 +49,17 @@ function App() {
     formData.append("id", id)
     formData.append("name", student_name)  
     console.log(images)
-    images.forEach((image) => formData.append("images", image));
 
-    if(images.length !== 5){
-      console.log(images.length)
-      setValues({...values,error:'5 images required!',images:[],success:false})
-      return
+    if(!capture){
+      images.forEach((image) => formData.append("images", image));
+
+      if( images.length !== 5){
+        console.log(images.length)
+        setValues({...values,error:'5 images required!',images:[],success:false})
+        return
+      }
     }
+   
 
     let response
     try {
@@ -76,6 +82,11 @@ function App() {
     }  
    
   }
+
+
+  let renderCapture = (<div>
+  <Profile />
+  </div>)
 
   return (
     <div className="App">
@@ -126,9 +137,35 @@ function App() {
             <div style={{marginTop:'2em'}}>
             <input required  name='student_name' style={{width:'20%'}} placeholder='Name' onChange={handleChange('student_name')} value={student_name}></input>
             </div>
-            <div style={{marginTop:'2em'}} >
-            <input required name='images' style={{width:'20%'}} multiple accept="image/*" type="file"  onChange={handleChange('images')}  />
+            <div style={{marginTop:'1em'}}>
+              <button
+              style={{cursor:'pointer', width:'100px'}}
+              type="button"
+              onClick={()=>{
+                setCapture(false)
+                setValues({...values, error:false, success:false})
+              }}
+              >
+                Upload 
+              </button>
+              <button
+               style={{cursor:'pointer',width:'100px'}}
+              type="button"
+              onClick={()=>{
+                setValues({...values, error:false, success:false})
+                setCapture(true)
+              }}
+              >
+              Capture
+              </button>
+
             </div>
+            {capture?(
+              <div>{renderCapture}</div>
+            ):<div style={{marginTop:'2em'}} >
+            <input required name='images' style={{width:'20%'}} multiple accept="image/*" type="file"  onChange={handleChange('images')}  />
+            </div>}
+            
            <button type="submit" style={{marginTop:'2em', cursor:'pointer'}}>Submit</button>
           </form>
         </div>
