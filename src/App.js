@@ -137,7 +137,7 @@ function App() {
             <div style={{marginTop:'2em'}}>
             <input required  name='student_name' style={{width:'20%'}} placeholder='Name' onChange={handleChange('student_name')} value={student_name}></input>
             </div>
-            <div style={{marginTop:'1em'}}>
+            {/* <div style={{marginTop:'1em'}}>
               <button
               style={{cursor:'pointer', width:'100px'}}
               type="button"
@@ -159,7 +159,7 @@ function App() {
               Capture
               </button>
 
-            </div>
+            </div> */}
             {capture?(
               <div>{renderCapture}</div>
             ):<div style={{marginTop:'2em'}} >
