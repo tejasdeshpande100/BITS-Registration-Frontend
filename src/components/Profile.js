@@ -3,7 +3,7 @@ import Webcam from 'react-webcam'
 import Axios from 'axios'
 
 
-const registerUrl = "http://172.18.19.210:8000/api/register"
+const registerUrl = "http://localhost:8000/api/register"
 
 const WebcamComponent = () => <Webcam />
 
@@ -26,7 +26,7 @@ const Profile = () => {
 
 
 
-  async function upload(pictures, filename) {
+  async function upload(pictures) {
 
     
     const formData = new FormData();
@@ -36,27 +36,26 @@ const Profile = () => {
     const files = [];
 
     async function processArray() {
-
         
-        
-        for (let i = 0; i < pictures.length; i++) {
-            const base64Image = pictures[i];
-            const byteCharacters = atob(base64Image.split(',')[1]);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let j = 0; j < byteCharacters.length; j++) {
+      for (let i = 0; i < pictures.length; i++) {
+          const base64Image = pictures[i];
+          const byteCharacters = atob(base64Image.split(',')[1]);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let j = 0; j < byteCharacters.length; j++) {
             byteNumbers[j] = byteCharacters.charCodeAt(j);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'image/png' });
-            const file = new File([blob], `image${i}.png`, { type: 'image/png' });
-            files.push(file);
-        }
-        console.log('Done!');
-        return files; 
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'image/png' });
+          const file = new File([blob], `image${i}.png`, { type: 'image/png' });
+          files.push(file);
+      }
+      
+      return files; 
        
     }
 
     await processArray();
+    console.log('files',files);
 
     files.forEach(file=>formData.append('images',file))
     // let res = await Axios.post(uploadUrl, formData);
@@ -64,11 +63,11 @@ const Profile = () => {
     let response
 
     try {
-    response = await Axios.post(registerUrl, formData);
-    if(response.status==200){
-        setUploaded(true)
-    }
-    console.log(response)
+      response = await Axios.post(registerUrl, formData);
+      if(response.status===200){
+          setUploaded(true)
+      }
+
     
     } catch (error) {
 
@@ -125,7 +124,7 @@ const Profile = () => {
            <button 
            onClick={(e) => {
             e.preventDefault()
-            upload(pictures,'hello')
+            upload(pictures)
            }}
             style={{marginLeft:'2em', cursor:'pointer'}}>
             Save

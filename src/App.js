@@ -10,7 +10,7 @@ import './App.css';
 import Axios from 'axios'
 import Profile from './components/Profile'
 
-const registerUrl = "http://172.18.19.210:8000/api/register"
+const registerUrl = "http://localhost:8000/api/register"
 
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
 
   console.log(values)
   const handleChange = name => event => {
+    console.log(name)
     if(name==='images'){
       const newVals = {...values}  
       newVals.images = [];  
@@ -48,13 +49,13 @@ function App() {
     const formData = new FormData();
     formData.append("id", id)
     formData.append("name", student_name)  
-    console.log(images)
+   
 
     if(!capture){
       images.forEach((image) => formData.append("images", image));
 
       if( images.length !== 5){
-        console.log(images.length)
+       
         setValues({...values,error:'5 images required!',images:[],success:false})
         return
       }
@@ -63,9 +64,9 @@ function App() {
 
     let response
     try {
-      console.log('FORMDATA',formData)
+     
       response = await Axios.post(registerUrl, formData);
-      setValues({id: '',  student_name: '', images:[],error:false,success:'Form submitted successfully'})
+      setValues({id: '',  student_name: '', images:images,error:false,success:'Form submitted successfully'})
     
     } catch (error) {
 
@@ -85,7 +86,7 @@ function App() {
 
 
   let renderCapture = (<div>
-  <Profile />
+    <Profile />
   </div>)
 
   return (
@@ -137,7 +138,7 @@ function App() {
             <div style={{marginTop:'2em'}}>
             <input required  name='student_name' style={{width:'20%'}} placeholder='Name' onChange={handleChange('student_name')} value={student_name}></input>
             </div>
-            {/* <div style={{marginTop:'1em'}}>
+            <div style={{marginTop:'1em'}}>
               <button
               style={{cursor:'pointer', width:'100px'}}
               type="button"
@@ -159,12 +160,17 @@ function App() {
               Capture
               </button>
 
-            </div> */}
+            </div>
+            
             {capture?(
               <div>{renderCapture}</div>
             ):<div style={{marginTop:'2em'}} >
             <input required name='images' style={{width:'20%'}} multiple accept="image/*" type="file"  onChange={handleChange('images')}  />
             </div>}
+
+          {/* <div style={{marginTop:'2em'}} >
+            <input required name='images' style={{width:'20%'}} multiple accept="image/*" type="file"  onChange={handleChange('images')}  />
+            </div> */}
             
            <button type="submit" style={{marginTop:'2em', cursor:'pointer'}}>Submit</button>
           </form>
