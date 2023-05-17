@@ -10,7 +10,7 @@ import './App.css';
 import Axios from 'axios'
 import Profile from './components/Profile'
 
-const registerUrl = "https://eerportal.bits-pilani.ac.in/backend/api/register"
+const registerUrl = "https://eerportal.bits-pilani.ac.in/backend/register"
 
 
 function App() {
