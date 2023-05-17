@@ -10,7 +10,7 @@ import './App.css';
 import Axios from 'axios'
 import Profile from './components/Profile'
 
-const registerUrl = "http://localhost:8000/api/register"
+const registerUrl = "http://172.24.16.141:8000/api/register"
 
 
 function App() {
