@@ -3,7 +3,7 @@ import Webcam from 'react-webcam'
 import Axios from 'axios'
 
 
-const registerUrl = "http://172.24.16.141:8000/api/register"
+const registerUrl = "http://localhost:8000/api/register"
 
 const WebcamComponent = () => <Webcam />
 
@@ -80,7 +80,7 @@ const Profile = () => {
   return (
     <div>
       <h2 className="mb-5 text-center">
-        Photo Capturing
+        Photos Captured: {pictures.length}
       </h2>
       <div>
         {pictures.length < 5 && (
@@ -104,6 +104,7 @@ const Profile = () => {
                 capture()
               }}
               className="btn btn-danger"
+              style={{cursor:'pointer'}}
             >
               Capture
             </button>
@@ -135,16 +136,14 @@ const Profile = () => {
       </div>
       {!uploaded && <div>
 
-        <div>
-            Photos:
-        </div>
-        {pictures.length && (
+        
+        {pictures.length ? (
             <>
         {pictures.map((picture,index)=>
           <img style={{marginRight:'2em', marginTop:'2em', width: '200px', height:'200px'}} key={index} src={picture} />
         )}
         </>
-        )}
+        ):<></>}
       </div>}
      
      { uploaded && (<div style={{color:'green'}}>

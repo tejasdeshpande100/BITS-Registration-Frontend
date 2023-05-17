@@ -10,7 +10,7 @@ import './App.css';
 import Axios from 'axios'
 import Profile from './components/Profile'
 
-const registerUrl = "http://172.24.16.141:8000/api/register"
+const registerUrl = "http://localhost:8000/api/register"
 
 
 function App() {
@@ -140,8 +140,9 @@ function App() {
             </div>
             <div style={{marginTop:'1em'}}>
               <button
-              style={{cursor:'pointer', width:'100px'}}
+              style={capture?{cursor:'pointer', width:'100px',backgroundColor:'grey', color:'white', borderRight:'none'}:{cursor:'pointer', width:'100px', borderRight:'none'}}
               type="button"
+              
               onClick={()=>{
                 setCapture(false)
                 setValues({...values, error:false, success:false})
@@ -150,7 +151,7 @@ function App() {
                 Upload 
               </button>
               <button
-               style={{cursor:'pointer',width:'100px'}}
+               style={capture?{cursor:'pointer', width:'100px',  borderLeft:'none'}:{cursor:'pointer', width:'100px',backgroundColor:'grey', color:'white', borderLeft:'none'}}
               type="button"
               onClick={()=>{
                 setValues({...values, error:false, success:false})
