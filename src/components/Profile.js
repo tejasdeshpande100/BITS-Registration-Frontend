@@ -3,7 +3,7 @@ import Webcam from 'react-webcam'
 import Axios from 'axios'
 
 
-const registerUrl = "http://172.24.16.141:8000/api/register"
+const registerUrl = "https://eerportal.bits-pilani.ac.in/backend/api/register"
 
 const WebcamComponent = () => <Webcam />
 
