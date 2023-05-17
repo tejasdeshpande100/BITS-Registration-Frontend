@@ -13,9 +13,10 @@ const videoConstraints = {
   facingMode: 'user',
 }
 
-const Profile = () => {
+const Profile = (props) => {
   const [pictures, setPictures] = useState([])
   const [uploaded, setUploaded] = useState(false)
+  const [error, setError] = useState(false)
 
   const webcamRef = React.useRef(null)
 
@@ -30,10 +31,34 @@ const Profile = () => {
 
     
     const formData = new FormData();
-    
-    formData.append("id", '2019B3A70562P')
-    formData.append("name", 'Tejas Deshpande')  
+    const {id, student_name, setValues} = props
+
+    console.log( 'props',props)
+
+    if(id==='' || student_name===''){
+      setError('Above feilds and 5 images are required!')
+      return
+    }else{
+      setError(false)
+    }
+
+    if(id.length<13){
+      setError('id should be 13 characters long!')
+      return
+    }else{
+      setError(false)
+    }
+
+    formData.append("id", id)
+    formData.append("name", student_name)  
     const files = [];
+
+    if(pictures.length<5){
+      setError('5 images are required!')
+      return
+    }else{
+      setError(false)
+    }
 
     async function processArray() {
         
@@ -66,6 +91,7 @@ const Profile = () => {
       response = await Axios.post(registerUrl, formData);
       if(response.status===200){
           setUploaded(true)
+          setValues({id: '',  student_name: '', images:[],error:false,success:'Form submitted successfully'})
       }
 
     
@@ -79,6 +105,10 @@ const Profile = () => {
 
   return (
     <div>
+      {error && <div style={{marginTop:'1em', color:'red'}}> {error} </div>}
+      {/* { uploaded && (<div style={{color:'green'}}>
+       Uploaded successfully!
+      </div>)} */}
       <h2 className="mb-5 text-center">
         Photos Captured: {pictures.length}
       </h2>
@@ -122,14 +152,7 @@ const Profile = () => {
           >
             Retake
           </button>
-           <button 
-           onClick={(e) => {
-            e.preventDefault()
-            upload(pictures)
-           }}
-            style={{marginLeft:'2em', cursor:'pointer'}}>
-            Save
-            </button>
+           
            </>
         ) 
         }
@@ -146,10 +169,15 @@ const Profile = () => {
         ):<></>}
       </div>}
      
-     { uploaded && (<div style={{color:'green'}}>
-       Uploaded successfully!
-      </div>)}
-      
+     
+      <button 
+           onClick={(e) => {
+            e.preventDefault()
+            upload(pictures)
+           }}
+            style={{ cursor:'pointer', marginTop: '2em'}}>
+            Save
+            </button>
     </div>
   )
 }

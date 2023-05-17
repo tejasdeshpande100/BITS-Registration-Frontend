@@ -86,7 +86,7 @@ function App() {
 
 
   let renderCapture = (<div>
-    <Profile />
+    <Profile setValues={setValues} id={values.id} student_name={values.student_name} />
   </div>)
 
   return (
@@ -173,7 +173,7 @@ function App() {
             <input required name='images' style={{width:'20%'}} multiple accept="image/*" type="file"  onChange={handleChange('images')}  />
             </div> */}
             
-           <button type="submit" style={{marginTop:'2em', cursor:'pointer'}}>Submit</button>
+           {capture?<></>:<button type="submit" style={{marginTop:'2em', cursor:'pointer'}}>Submit</button>}
           </form>
         </div>
         <div style={{display:'flex',marginTop:'2em',justifyContent:'flex-start'}}>
